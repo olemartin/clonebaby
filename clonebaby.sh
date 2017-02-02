@@ -5,7 +5,7 @@
 # Check for Homebrew
 if test ! $(which brew); then
   echo "Installing homebrew.."
-  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
 # Update homebrew
@@ -13,74 +13,83 @@ brew update
 
 echo "Installing packages.."
 
-# Install GNU core utilities (those that come with OS X are outdated)
-brew install coreutils
-
-# Install GNU `find`, `locate`, `updatedb`, and `xargs`, g-prefixed
-brew install findutils
-
-# Install Bash 4 (Hello Shellshock)
-brew install bash
-
-# Install more recent versions of some OS X tools
-brew tap homebrew/dupes
-brew install homebrew/dupes/grep
-
 # Install other useful binaries
-binaries=(
-  python
-  sshfs
-  tree
-  ack
+packages=(
+  ansible
+  bash
+  coreutils
   git
+  gnupg2
+  go
   hub
+  macvim
   node
-  maven
+  openssl
+  pass
+  python
+  terminal-notifier
+  terraform
+  vim
+  wget
+  yarn
+  z
+  zsh
 )
 
-# Install the binaries
-brew install ${binaries[@]}
-
-# Install Cask
-brew install caskroom/cask/brew-cask
-
-# Remove outdated versions from the cellar
-brew cleanup
+# Install the packages
+brew install ${packages[@]}
 
 apps=(
-  alfred
-  dropbox
-  google-chrome
-  firefox
-  spotify
-  java
-  sublime
   atom
-  vlc
-  transmission
-  slack
+  dropbox
+  firefox
+  flux
+  google-chrome
+  google-drive
+  intellij-idea
+  iterm2
+  java
+  jce-unlimited-strength-policy
+  mou
+  porthole
+  qlmarkdown
   qlcolorcode
   quicklook-json
   qlmarkdown
   qlstephen
-  intellij-idea
-  iterm2
-  docker-toolbox
+  slack
+  spotify
+  tidal
+  vagrant
+  virtualbox
+  vlc
 )
 
-# Adding beta versions
-brew tap caskroom/versions
+# Maven depends on the cask-installed java
+brew install maven
 
 echo "Installing apps.."
 brew cask install ${apps[@]}
 
-echo "Setting up zsh"
-curl -L http://install.ohmyz.sh | sh
-echo export PATH='/usr/local/bin:$(brew --prefix coreutils)/libexec/gnubin:$PATH' >> ~/.zshrc # <- TODO: Make idempotent
+echo "Installing fonts ..."
+brew tap caskroom/fonts
+brew cask install font-hack
 
-#TODO: Dotfiles
-echo "Setting up VIM"
-cp -R dotfiles/.vim* ~
+if [ ! -d ~/.oh-my-zsh ]; then
+  echo "Setting up zsh"
+  sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+fi
+
+echo "Setting up dotfiles"
+if [ ! -d ~/.vim ]; then
+  git clone https://github.com/fredva/dotvim.git ~/.vim
+fi
+
+echo "Cloning dotvim"
+if [ ! -d ~/.dotfiles ]; then
+  git clone https://github.com/fredva/dotfiles.git ~/.dotfiles
+  ~/.dotfiles/setup.sh
+fi
 
 echo "Settings.."
 defaults write com.apple.systemsound 'com.apple.sound.uiaudio.enabled' -int 0
@@ -89,8 +98,10 @@ defaults write -g InitialKeyRepeat -int 20
 defaults write -g KeyRepeat -int 1
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 
-#TODO: Terminal colors
-#TODO: Clean up zsh aliases
+defaults write com.apple.dock autohide -bool true
+defaults write com.apple.dock autohide-delay -float 0.1
+defaults write com.apple.dock autohide-time-modifier -float 1
+killall Dock
 
 exit 0
 
