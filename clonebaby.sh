@@ -1,7 +1,5 @@
 #!/bin/sh
 
-# Huge thanks to Matthew Mueller and his blogpost at http://lapwinglabs.com/blog/hacker-guide-to-setting-up-your-mac
-
 # Check for Homebrew
 if test ! $(which brew); then
   echo "Installing homebrew.."
