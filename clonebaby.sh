@@ -74,6 +74,7 @@ brew cask install ${apps[@]}
 echo "Installing fonts ..."
 brew tap caskroom/fonts
 brew cask install font-hack
+brew cask install font-fira-code
 
 if [ ! -d ~/.oh-my-zsh ]; then
   echo "Setting up zsh"
