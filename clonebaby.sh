@@ -92,7 +92,6 @@ fi
 
 echo "Settings.."
 defaults write com.apple.systemsound 'com.apple.sound.uiaudio.enabled' -int 0
-defaults write com.apple.finder AppleShowAllFiles YES
 defaults write -g InitialKeyRepeat -int 20
 defaults write -g KeyRepeat -int 1
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
