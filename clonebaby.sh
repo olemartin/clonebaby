@@ -42,6 +42,7 @@ apps=(
   dropbox
   firefox
   flux
+  gitup
   google-chrome
   google-drive
   intellij-idea
