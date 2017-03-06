@@ -31,7 +31,6 @@ packages=(
   wget
   yarn
   z
-  zsh
 )
 
 # Install the packages
@@ -42,15 +41,12 @@ apps=(
   dropbox
   firefox
   flux
-  gitup
   google-chrome
   google-drive
   intellij-idea
   iterm2
   java
   jce-unlimited-strength-policy
-  mou
-  porthole
   qlmarkdown
   qlcolorcode
   quicklook-json
@@ -58,9 +54,6 @@ apps=(
   qlstephen
   slack
   spotify
-  tidal
-  vagrant
-  virtualbox
   vlc
 )
 
@@ -74,11 +67,6 @@ echo "Installing fonts ..."
 brew tap caskroom/fonts
 brew cask install font-hack
 brew cask install font-fira-code
-
-if [ ! -d ~/.oh-my-zsh ]; then
-  echo "Setting up zsh"
-  sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-fi
 
 echo "Setting up dotfiles"
 if [ ! -d ~/.vim ]; then
@@ -96,11 +84,6 @@ defaults write com.apple.systemsound 'com.apple.sound.uiaudio.enabled' -int 0
 defaults write -g InitialKeyRepeat -int 20
 defaults write -g KeyRepeat -int 1
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
-
-defaults write com.apple.dock autohide -bool true
-defaults write com.apple.dock autohide-delay -float 0.1
-defaults write com.apple.dock autohide-time-modifier -float 1
-killall Dock
 
 exit 0
 
